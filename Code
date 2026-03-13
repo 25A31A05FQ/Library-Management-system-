@@ -1,0 +1,101 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Library {
+    int bookId;
+    string title;
+    string author;
+
+public:
+    void addBook() {
+        cout << "Enter Book ID: ";
+        cin >> bookId;
+        cin.ignore();
+        cout << "Enter Book Title: ";
+        getline(cin, title);
+        cout << "Enter Author Name: ";
+        getline(cin, author);
+    }
+
+    void displayBook() {
+        cout << "\nBook ID: " << bookId;
+        cout << "\nTitle: " << title;
+        cout << "\nAuthor: " << author << endl;
+    }
+
+    int getBookId() {
+        return bookId;
+    }
+};
+
+int main() {
+    Library books[100];
+    int count = 0;
+    int choice, id, i;
+
+    do {
+        cout << "\n--- Library Management System ---\n";
+        cout << "1. Add Book\n";
+        cout << "2. Display Books\n";
+        cout << "3. Search Book\n";
+        cout << "4. Delete Book\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch(choice) {
+
+        case 1:
+            books[count].addBook();
+            count++;
+            break;
+
+        case 2:
+            for(i = 0; i < count; i++) {
+                books[i].displayBook();
+            }
+            break;
+
+        case 3:
+            cout << "Enter Book ID to search: ";
+            cin >> id;
+            for(i = 0; i < count; i++) {
+                if(books[i].getBookId() == id) {
+                    books[i].displayBook();
+                    break;
+                }
+            }
+            if(i == count)
+                cout << "Book not found\n";
+            break;
+
+        case 4:
+            cout << "Enter Book ID to delete: ";
+            cin >> id;
+            for(i = 0; i < count; i++) {
+                if(books[i].getBookId() == id) {
+                    for(int j = i; j < count-1; j++) {
+                        books[j] = books[j+1];
+                    }
+                    count--;
+                    cout << "Book deleted\n";
+                    break;
+                }
+            }
+            if(i == count)
+                cout << "Book not found\n";
+            break;
+
+        case 5:
+            cout << "Exiting program...\n";
+            break;
+
+        default:
+            cout << "Invalid choice\n";
+        }
+
+    } while(choice != 5);
+
+    return 0;
+}
